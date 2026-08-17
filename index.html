@@ -1233,6 +1233,12 @@ const categories = {
     updBtn.textContent = '🆕 Обновления';
     updBtn.addEventListener('click', () => { activeTab = 'updates'; renderAll(); });
     tabsDiv.appendChild(updBtn);
+
+    const plansBtn = document.createElement('span');
+    plansBtn.className = 'tab-btn' + (activeTab === 'plans' ? ' active' : '');
+    plansBtn.textContent = '🔮 Планы';
+    plansBtn.addEventListener('click', () => { activeTab = 'plans'; renderAll(); });
+    tabsDiv.appendChild(plansBtn);
   }
 
   function renderAll() {
@@ -1381,6 +1387,16 @@ const categories = {
       block.className = 'admin-block';
       block.innerHTML = `
         <h2>🆕 Что нового (большое обновление)</h2>
+        <h3 class="sys-group">📦 Последнее обновление</h3>
+        <div class="admin-command"><span>📛 Репорт личных данных</span> — к репорту добавили прямую ссылку на сообщение нарушителя (жмёшь — открывается то самое сообщение)</div>
+        <div class="admin-command"><span>🧹 Автоочистка сообщений бота</span> — бот сам удаляет свои старые сообщения в чате (лимит 30, настраивается: «.чистка 50», 0 = выкл)</div>
+        <div class="admin-command"><span>⚖️ Суд и возврат кражи</span> — «вернуть кражу @ник» (КД 1ч, 80% — вернут, 20% — авто-жалоба админам) и команда «суд @ник»</div>
+        <div class="admin-command"><span>🔒 Журнал действий (.логи)</span> — «.логи всё» — файл со всеми записями в ЛС, «.логи ошибки» — только падения, «.логи @ник|id» — по игроку, «.логи настройки» — лимит записей, автоотправка админам раз в N часов, логировать только команды</div>
+        <div class="admin-command"><span>🎰 Честное казино</span> — починили монетку и красное/чёрное: был скрытый двойной случай (25% вместо 50%), теперь угадал сторону/цвет — выигрыш</div>
+        <div class="admin-command"><span>👑 Кланы</span> — создание теперь 10 000🎡, содержание 100🎡/нед с казны (нет денег неделю — предупреждение, ещё неделя — роспуск)</div>
+        <div class="admin-command"><span>🔟 Суммы с «к»</span> — везде работает приставка «к»: 1к=1000, 10к=10000, 1.5к=1500, 1кк=1 000 000 (переводы, казино, грабёж, кредит, вклад, долги)</div>
+        <div class="admin-command"><span>🏦 Кредит</span> — сообщение о выплате теперь показывает полную сумму: «Кредит 100 000 (было 130 000) полностью закрыт ✅» — скриншоты не подделать</div>
+        <div class="admin-command"><span>🗄 Хранилище</span> — казначей не может спамить предложениями (КД 10 мин), получает уведомление при отказе/истечении, дубль-предложение заблокировано</div>
         <h3 class="sys-group">🏪 Своя лавка</h3>
         <div class="admin-command"><span>открыть лавку / выставить / лавки / купить у @ник</span> — свои цены на предметы,
           другие покупают прямо из твоего магазина. Комиссия бота 10% (торговцу — 5%)</div>
@@ -1411,6 +1427,36 @@ const categories = {
         <h3 class="sys-group">🎂 Праздники</h3>
         <div class="admin-command"><span>др <дд.мм></span> — бот помнит день рождения, поздравляет и дарит +100🎡 в сам день</div>
         <p style="margin-top:18px;color:#a6adc8;">Полный список всех команд — во вкладках выше. «инфо <команда>» — справка прямо в чате.</p>
+      `;
+      container.appendChild(block);
+      return;
+    }
+
+    if (activeTab === 'plans') {
+      const block = document.createElement('div');
+      block.className = 'admin-block';
+      block.innerHTML = `
+        <h2>🔮 Что планируем добавить (ещё решаем)</h2>
+        <p style="color:#a6adc8;margin-bottom:18px;">
+          Эти фичи пока в обсуждении — голосуйте в чате, что добавить первым. Идеи можно слать: <b>«жалоба <идея>»</b> или <b>«.предложение <идея>»</b>.
+        </p>
+        <h3 class="sys-group">💡 В работе / на обсуждении</h3>
+        <div class="admin-command"><span>🏠 Дома и квартиры</span> — ремонт и мебель, обустройство своих хат, обмен с соседями</div>
+        <div class="admin-command"><span>📈 Биржа рулетов</span> — цены на ресурсы меняются в течение дня, спекуляция на разнице</div>
+        <div class="admin-command"><span>💼 Фирмы и наём</span> — нанять других игроков на работу в свой бизнес</div>
+        <div class="admin-command"><span>⚔️ Клановые войны</span> — рейтинг кланов, сезонные турниры, награды за победы</div>
+        <div class="admin-command"><span>🎁 Сундуки и ежедневные подарки</span> — случайные бонусы за активность, редкие дропы</div>
+        <div class="admin-command"><span>🛡 Битвы боссов</span> — всем чатом против общего босса с общим банком награды</div>
+        <div class="admin-command"><span>📊 Достижения кланов и игроков</span> — расширенные ачивки с сезонными наградами</div>
+        <div class="admin-command"><span>📜 Свои квесты для друзей</span> — игроки создают задания друг для друга с наградами</div>
+        <div class="admin-command"><span>💬 Эмодзи-реакции бота</span> — реакции на события (победы, кражи, свадьбы)</div>
+        <div class="admin-command"><span>🌙 Ночной режим</span> — другие штрафы/бонусы ночью, кражи удачнее</div>
+        <div class="admin-command"><span>🎰 Новые игры казино</span> — покер-рулет, «чёрный ящик», ставки на события чата</div>
+        <div class="admin-command"><span>🔒 Умный анти-фарм</span> — детект накруток (переводы между своими, боты) с авто-санкциями</div>
+        <div class="admin-command"><span>🏆 Сезонные ивенты</span> — недельные события с ограниченными наградами</div>
+        <div class="admin-command"><span>🤖 Больше RP-команд</span> — постоянно пополняем каталог по заявкам игроков</div>
+        <div class="admin-command"><span>⚙️ Прозрачный рейтинг админов</span> — логи действий модерации, публичные отчеты</div>
+        <p style="margin-top:18px;color:#a6adc8;">Что-то из этого уже согласовано — добавлено во вкладке «Обновления».</p>
       `;
       container.appendChild(block);
       return;
